@@ -38,7 +38,7 @@ function isValue() {
 	}
 }
 
-
+// не получается вывод результата на экран
 // отображение результата
 function showResult(apiData) {
   let cards = '';
