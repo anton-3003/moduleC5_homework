@@ -2,6 +2,15 @@
 const reqBtn = document.querySelector(".j-btn-request");
 let messageArea = document.querySelector(".result-area");
 
+function displayImagesFromStorage() {
+	const loaded_imgs = localStorage.imageData;
+	const imagesArea = document.querySelector(".result-area");
+	imagesArea.innerHTML = loaded_imgs;
+}
+
+if (localStorage.imageData) {
+	displayImagesFromStorage();
+}
 
  // проверка данных на число и параметры
 function isPageValue(num) {
@@ -12,7 +21,6 @@ function isPageValue(num) {
 	}
 }
 
-
 function isValue() {
 	// получение и проверка данных из формы
 	const pageNumValue = document.getElementById("j-page-input").value;
@@ -22,17 +30,14 @@ function isValue() {
 	if(!isPageValue(pageNumValue) && !isPageValue(limitValue)) {
 		result = "Номер страницы и лимит вне диапазона от 1 до 10";
 		messageArea.innerHTML = result;
-
 	} else if(!isPageValue(limitValue)) {
 		result = "Лимит вне диапазона от 1 до 10";
 		messageArea.innerHTML = result;
-	
 	} else if(!isPageValue(pageNumValue)) {
 		result = "Номер страницы вне диапазона от 1 до 10";
 		messageArea.innerHTML = result;
-	
 	} else {
-		// Если все параметры ОК - приступаем к запросу и выводу результата на экран
+		// Если все параметры ОК - формируем строку запроса и возврщаем её
 		let urlReq = `https://picsum.photos/v2/list?page=${pageNumValue}&limit=${limitValue}`;
 		return urlReq;	
 	}
@@ -64,6 +69,7 @@ function useRequest(url, callback) {
 // отображение результата
 function showResult(apiData) {
   let cards = '';
+
   
   apiData.forEach(item => {
     const cardBlock = `
@@ -74,10 +80,13 @@ function showResult(apiData) {
         />
       </div>
     `;
+
     cards = cards + cardBlock;
   });
   
   messageArea.innerHTML = cards;
+  localStorage.imageData = cards;
+  console.log(cards);
 };
 
 
